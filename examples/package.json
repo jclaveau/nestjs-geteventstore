@@ -15,6 +15,7 @@
     "~nestjs-geteventstore": "../src"
   },
   "dependencies": {
+    "@eventstore/db-client": "^2",
     "@godaddy/terminus": "^4.4.1",
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
@@ -33,7 +34,7 @@
   },
   "devDependencies": {
     "@compodoc/compodoc": "^1.1.11",
-    "@nestjs/testing": "^8.2.6",
+    "@nestjs/testing": "^7",
     "@types/express": "^4.16.1",
     "@types/jest": "^27.4.0",
     "@types/node": "^11.9.4",
