@@ -1,0 +1,37 @@
+name: Tests Of Examples
+
+on: [push, pull_request]
+
+jobs:
+  test:
+
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 14.x, 16.x ]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Start containers
+      run: docker-compose -f "docker-compose.yml" up -d --build
+
+    - name: yarn install
+      run: yarn install
+
+    - name: yarn install
+      run: cd examples && yarn install
+
+    - name: yarn test
+      run: cd examples && yarn test:e2e
+
+    - name: Stop containers
+      if: always()
+      run: docker-compose -f "docker-compose.yml" down
