@@ -97,7 +97,7 @@ export class EventStoreService implements OnModuleInit, IEventStoreService {
 
       this.isOnError = false;
       this.isTryingToConnect = false;
-      this.logger.log(`EventStore connected`);
+      this.logger.debug(`EventStore connected`);
       this.eventStoreHealthIndicator.updateStatus({
         connection: 'up',
         subscriptions: 'up',
@@ -115,7 +115,7 @@ export class EventStoreService implements OnModuleInit, IEventStoreService {
   }
 
   private async retryToConnect(): Promise<void> {
-    this.logger.log(`EventStore connection failed : trying to reconnect`);
+    this.logger.debug(`EventStore connection failed : trying to reconnect`);
     setTimeout(async () => await this.connect(), RECONNECTION_TRY_DELAY_IN_MS);
   }
 
@@ -171,10 +171,10 @@ export class EventStoreService implements OnModuleInit, IEventStoreService {
   private extractProjectionContent(projection: EventStoreProjection): string {
     let content;
     if (projection.content) {
-      this.logger.log(`"${projection.name}" projection in content`);
+      this.logger.debug(`"${projection.name}" projection in content`);
       content = projection.content;
     } else if (projection.file) {
-      this.logger.log(`"${projection.name}" projection in file`);
+      this.logger.debug(`"${projection.name}" projection in file`);
       content = readFileSync(projection.file, 'utf8');
     }
     return content;
@@ -184,12 +184,12 @@ export class EventStoreService implements OnModuleInit, IEventStoreService {
     projections: EventStoreProjection[],
   ): Promise<void> {
     for (const projection of projections) {
-      this.logger.log(`Upserting projection "${projection.name}"...`);
+      this.logger.debug(`Upserting projection "${projection.name}"...`);
 
       const content = this.extractProjectionContent(projection);
       await this.upsertProjection(content, projection);
 
-      this.logger.log(`Projection "${projection.name}" upserted !`);
+      this.logger.debug(`Projection "${projection.name}" upserted !`);
     }
   }
 
@@ -280,7 +280,7 @@ export class EventStoreService implements OnModuleInit, IEventStoreService {
     return Promise.all(
       subscriptions.map(
         (config: IPersistentSubscriptionConfig): PersistentSubscription => {
-          this.logger.log(
+          this.logger.debug(
             `Connecting to persistent subscription "${config.group}" on stream "${config.stream}"...`,
           );
           const onEvent = (subscription, payload) => {
@@ -316,7 +316,7 @@ export class EventStoreService implements OnModuleInit, IEventStoreService {
             });
             if (!this.isTryingToConnect) await this.connect();
           });
-          this.logger.log(
+          this.logger.debug(
             `Connected to persistent subscription "${config.group}" on stream "${config.stream}" !`,
           );
           return persistentSubscription;
@@ -346,7 +346,7 @@ export class EventStoreService implements OnModuleInit, IEventStoreService {
         },
         subscription.settingsForCreation?.baseOptions,
       );
-      this.logger.log(
+      this.logger.debug(
         `Persistent subscription "${subscription.group}" on stream ${subscription.stream} created.`,
       );
     } catch (e) {
