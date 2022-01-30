@@ -27,7 +27,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint .",
     "check-lite": "npm run lint:fix && npm run prepare",
-    "test": "jest src ",
+    "test": "jest ",
     "semantic-release": "semantic-release",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -115,7 +115,8 @@
     },
     "globalSetup": "./jest.setup.ts",
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": ["/examples/"]
   },
   "lint-staged": {
     "./src/**/*.{ts}": [
