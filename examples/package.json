@@ -9,7 +9,7 @@
     "start:heroes:cqrs:eventstore": "ts-node-dev src/bin/runner.ts"
   },
   "_moduleAliases": {
-    "@nestjs-geteventstore": "../src"
+    "~nestjs-geteventstore": "../src"
   },
   "dependencies": {
     "@godaddy/terminus": "^4.4.1",
