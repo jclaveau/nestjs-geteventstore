@@ -59,6 +59,7 @@ import IEventsAndMetadatasStacker, {
 import EventBatch from '../reliability/interface/event-batch';
 import { EventStoreHealthIndicator } from '../health';
 import MetadatasContextDatas from '../reliability/interface/metadatas-context-datas';
+import to from 'await-to-js';
 
 @Injectable()
 export class EventStoreService implements OnModuleInit, IEventStoreService {
@@ -93,7 +94,7 @@ export class EventStoreService implements OnModuleInit, IEventStoreService {
             this.subsystems.subscriptions.persistent,
           );
       if (this.subsystems.projections)
-        this.upsertProjections(this.subsystems.projections).then(() => {});
+        to(this.upsertProjections(this.subsystems.projections).then(() => {}));
 
       this.isOnError = false;
       this.isTryingToConnect = false;
