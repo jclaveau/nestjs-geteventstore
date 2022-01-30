@@ -31,7 +31,7 @@ jobs:
       run: cd examples && yarn install
 
     - name: yarn test
-      run: cd examples && yarn test:e2e
+      run: cd examples && yarn test:e2e --coverage
 
     - name: Stop containers
       if: always()
